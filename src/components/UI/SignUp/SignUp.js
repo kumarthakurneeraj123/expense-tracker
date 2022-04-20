@@ -1,7 +1,14 @@
+import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import React,{Fragment, useRef,} from 'react';
 import classes from './SignUp.module.css';
+import { authContext } from '../../../store/Auth-Context';
+
 
 const SignUp = (props)=>{
+    const authCtx = useContext(authContext);
+    const history = useHistory();
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const confirmPasswordInputRef = useRef();
@@ -23,8 +30,10 @@ const SignUp = (props)=>{
                 'Content-Type':'application/json'
             }).then((res)=>{
                if(res.ok){
+                   authCtx.signup(true);
                    console.log('User has successfully registered !');
                    alert('User has successfully registered !');
+                   history.replace('/login');
                    return res.json();
                }else{
                    return res.json().then((data)=>{
