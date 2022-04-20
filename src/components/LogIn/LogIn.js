@@ -2,6 +2,7 @@ import React,{Fragment, useRef, useContext} from 'react';
 import { authContext } from '../../store/Auth-Context';
 import classes from './login.module.css';
 import { useHistory } from 'react-router-dom';
+import SignUpPage from '../../Pages/SignUpPage';
 
 const LogIn = ()=>{
     const history = useHistory();
@@ -41,6 +42,9 @@ const LogIn = ()=>{
         }).catch(err=>alert(err));
         
     }
+    const clickHandler = ()=>{
+        return <SignUpPage />
+    }
     return (
         <Fragment>
             <form className={classes.login} onSubmit={submitHandler}>
@@ -60,7 +64,7 @@ const LogIn = ()=>{
             </div >
             <a href='/'>Forgot Password</a>
             </form>
-            
+            <button className={classes.button} onClick={clickHandler} >Don't have an account? Sign Up</button>
         </Fragment>
     );
 }

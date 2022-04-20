@@ -47,6 +47,9 @@ const SignUp = (props)=>{
             }).catch(err =>alert(err));
         }
     }
+    const clickHandler = ()=>{
+        history.push('/login');
+    }
     return(
     <Fragment >
         <form className={classes.form} onSubmit={submitHandler}  >
@@ -68,7 +71,7 @@ const SignUp = (props)=>{
         </div>
         </form>
         <div className={classes.actions}  >
-            <button className={classes.button}>Have an account? Log In</button>
+            <button className={classes.button} onClick = {clickHandler}>Have an account? Log In</button>
         </div>
     </Fragment>);
 
