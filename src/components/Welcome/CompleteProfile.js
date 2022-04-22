@@ -1,5 +1,7 @@
 import { Fragment, useRef, useContext } from "react";
 import { authContext } from "../../store/Auth-Context";
+import GetData from "../GetData/GetData";
+
 const CompleteProfile = (props)=>{
     const authCtx = useContext(authContext);
     const nameInputRef = useRef();
@@ -38,14 +40,15 @@ const CompleteProfile = (props)=>{
     }).catch(err =>alert(err));
 }
 return <Fragment>
-    <form onSubmit={updateHandler}>
+    <form onSubmit={updateHandler}  >
         <h2>Contact Details</h2><br/>
         <label>Full Name</label>
         <input ref={nameInputRef} type='text' required/>
         <label>Photo URL</label>
-        <input ref={photoURLRef} type='text' required/><br />
+        <input ref={photoURLRef}  type='text' required/><br />
         <button>Update</button>
     </form>
+    <GetData />
     </Fragment>
 }
 export default CompleteProfile;

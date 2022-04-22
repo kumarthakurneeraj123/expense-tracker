@@ -21,7 +21,7 @@ function App() {
     
     <div className="app">
     <Switch>
-      {!authCtx.isSignUp && <SignUpPage />}
+      {!authCtx.isSignUp && !authCtx.isLogIn && <SignUpPage />}
      
       {authCtx.isSignUp && !authCtx.isLogIn&& <Route path='/login' exact>
           <LoginPage />
