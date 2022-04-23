@@ -4,17 +4,23 @@ export const authContext = React.createContext({
     token:'',
     isSignUp : false,
     isLogIn : false,
+    isEmailVerified : false,
     signup:()=>{},
     login:(token)=>{},
-    logout:()=>{}
+    logout:()=>{},
+    verifyMail:()=>{}
 });
 
 const AuthContextProvider = (props)=>{
     const initialToken = localStorage.getItem('token');
     const initialSignUp = localStorage.getItem('signUp');
+    const [mailVerified, setMailVerified] = useState(false);
     const [userIsSignUp, setUserIsSignUp] = useState(initialSignUp);
     const [token, setToken] = useState(initialToken);
     const userIsLogIn = !!token;
+    const verifyMail =()=>{
+        setMailVerified(true);
+    }
     const signUpHandler = (value)=>{
         localStorage.setItem('signUp',value);
         setUserIsSignUp(value);
@@ -30,9 +36,11 @@ const AuthContextProvider = (props)=>{
         token:token,
         isSignUp:userIsSignUp,
         isLogIn:userIsLogIn,
+        isEmailVerified:mailVerified,
         signup:signUpHandler,
         login:loginHandler,
-        logout:logoutHandler
+        logout:logoutHandler,
+        verifyMail:verifyMail
     }
 return (
     <authContext.Provider value={contextValue} >

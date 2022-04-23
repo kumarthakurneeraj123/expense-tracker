@@ -38,7 +38,7 @@ const LogIn = ()=>{
             }
         }).then((data)=>{
             authCtx.login(data.idToken);
-            history.replace('/');
+            history.replace('/verify-email');
         }).catch(err=>alert(err));
         
     }

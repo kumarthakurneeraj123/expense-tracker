@@ -9,6 +9,7 @@ import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
 import WelcomePage from './Pages/WelcomePage';
 import ProfilePage from './Pages/ProfilePage';
+import EmailVerifyPage from './Pages/EmailVerifyPage';
 
 
 
@@ -28,8 +29,9 @@ function App() {
     </Route>}
     </Switch>
     </div>
-     {authCtx.isLogIn && <Route path='/' ><WelcomePage /></Route>}
-     {authCtx.isLogIn && <Route path='/profile' ><ProfilePage /></Route>}
+      {authCtx.isLogIn && !authCtx.isEmailVerified && <Route path='/verify-email'> <EmailVerifyPage /></Route>}
+     {authCtx.isLogIn && authCtx.isEmailVerified && <Route path='/' ><WelcomePage /></Route>}
+     {authCtx.isLogIn && authCtx.isEmailVerified && <Route path='/profile' ><ProfilePage /></Route>}
     </div>
   );
 }
