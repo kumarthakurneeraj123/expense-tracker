@@ -5,10 +5,12 @@ export const authContext = React.createContext({
     isSignUp : false,
     isLogIn : false,
     isEmailVerified : false,
+    oobCode : '',
     signup:()=>{},
     login:(token)=>{},
     logout:()=>{},
-    verifyMail:()=>{}
+    verifyMail:()=>{},
+    oobCodeHandler:(code)=>{}
 });
 
 const AuthContextProvider = (props)=>{
@@ -17,7 +19,11 @@ const AuthContextProvider = (props)=>{
     const [mailVerified, setMailVerified] = useState(false);
     const [userIsSignUp, setUserIsSignUp] = useState(initialSignUp);
     const [token, setToken] = useState(initialToken);
+    const [oobCode , setOobCode] = useState();
     const userIsLogIn = !!token;
+    const oobCodeHandler = (code)=>{
+        setOobCode(code);
+    }
     const verifyMail =()=>{
         setMailVerified(true);
     }
@@ -26,7 +32,6 @@ const AuthContextProvider = (props)=>{
         setUserIsSignUp(value);
     }
     const loginHandler = (idToken)=>{
-        setMailVerified(true);
         localStorage.setItem('token',idToken);
             setToken(idToken);
     }
@@ -40,10 +45,12 @@ const AuthContextProvider = (props)=>{
         isSignUp:userIsSignUp,
         isLogIn:userIsLogIn,
         isEmailVerified:mailVerified,
+        oobCode:oobCode,
         signup:signUpHandler,
         login:loginHandler,
         logout:logoutHandler,
-        verifyMail:verifyMail
+        verifyMail:verifyMail,
+        oobCodeHandler:oobCodeHandler
     }
 return (
     <authContext.Provider value={contextValue} >

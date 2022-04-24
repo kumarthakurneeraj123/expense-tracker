@@ -10,6 +10,9 @@ import SignUpPage from "./Pages/SignUpPage";
 import WelcomePage from "./Pages/WelcomePage";
 import ProfilePage from "./Pages/ProfilePage";
 import EmailVerifyPage from "./Pages/EmailVerifyPage";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import VerifyResetCode from "./components/VerifyResetCode/VerifyResetCode";
+import ForgotPasswordVerify from "./components/ForgotPassword/ForgotPasswordVerify";
 
 function App() {
   const authCtx = useContext(authContext);
@@ -41,6 +44,15 @@ function App() {
           <ProfilePage />
         </Route>
       )}
+      <Route path="/forgot-password">
+        <ForgotPassword />
+      </Route>
+      <Route path="/reset-password-link">
+        <VerifyResetCode />
+      </Route>
+      <Route path="/new-password">
+        <ForgotPasswordVerify />
+      </Route>
     </div>
   );
 }
