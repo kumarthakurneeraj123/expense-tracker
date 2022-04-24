@@ -26,10 +26,13 @@ const AuthContextProvider = (props)=>{
         setUserIsSignUp(value);
     }
     const loginHandler = (idToken)=>{
+        setMailVerified(true);
         localStorage.setItem('token',idToken);
             setToken(idToken);
     }
     const logoutHandler = ()=>{
+        setMailVerified(false);
+        localStorage.removeItem('token');
         setToken(null);
     }
     const contextValue ={
