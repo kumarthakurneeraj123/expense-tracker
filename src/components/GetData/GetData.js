@@ -17,7 +17,6 @@ const GetData = ()=>{
             })
         }).then((res)=>{
             if(res.ok){
-                alert('Getting data');
                 console.log(res);
                 return res.json();
             }else{

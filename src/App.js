@@ -14,6 +14,7 @@ import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import VerifyResetCode from "./components/VerifyResetCode/VerifyResetCode";
 import ForgotPasswordVerify from "./components/ForgotPassword/ForgotPasswordVerify";
 
+
 function App() {
   const authCtx = useContext(authContext);
   return (
@@ -44,15 +45,18 @@ function App() {
           <ProfilePage />
         </Route>
       )}
+      {!authCtx.isLogIn && 
       <Route path="/forgot-password">
         <ForgotPassword />
-      </Route>
+      </Route>}
+      {!authCtx.isLogIn && 
       <Route path="/reset-password-link">
         <VerifyResetCode />
-      </Route>
+      </Route>}
+      {!authCtx.isLogIn && 
       <Route path="/new-password">
         <ForgotPasswordVerify />
-      </Route>
+      </Route>}
     </div>
   );
 }
