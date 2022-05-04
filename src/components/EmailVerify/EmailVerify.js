@@ -1,7 +1,9 @@
 import React ,{ useContext } from "react";
 import { authContext } from "../../store/Auth-Context";
+import { useHistory } from "react-router-dom";
 
 const EmailVerify=()=>{
+    const history = useHistory();
     const authCtx = useContext(authContext);
     const emailVerifyHandler = ()=>{
         fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDD2IuTibFJhBibT1y05IRxNLOkicES1ZA',{
@@ -28,6 +30,7 @@ const EmailVerify=()=>{
             }).then((data)=>{
                 console.log(data);
                 authCtx.verifyMail();
+                history.replace('/welcome');
             }).catch(err=>alert(err));
     }
 

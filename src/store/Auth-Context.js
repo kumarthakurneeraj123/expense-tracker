@@ -16,7 +16,8 @@ export const authContext = React.createContext({
 const AuthContextProvider = (props)=>{
     const initialToken = localStorage.getItem('token');
     const initialSignUp = localStorage.getItem('signUp');
-    const [mailVerified, setMailVerified] = useState(false);
+    const stateOfMail = localStorage.getItem('verifyMail');
+    const [mailVerified, setMailVerified] = useState(stateOfMail);
     const [userIsSignUp, setUserIsSignUp] = useState(initialSignUp);
     const [token, setToken] = useState(initialToken);
     const [oobCode , setOobCode] = useState();
@@ -24,8 +25,10 @@ const AuthContextProvider = (props)=>{
     const oobCodeHandler = (code)=>{
         setOobCode(code);
     }
+   
     const verifyMail =()=>{
-        setMailVerified(true);
+        localStorage.setItem('verifyMail',true);
+            setMailVerified(true);
     }
     const signUpHandler = (value)=>{
         localStorage.setItem('signUp',value);
@@ -37,6 +40,7 @@ const AuthContextProvider = (props)=>{
     }
     const logoutHandler = ()=>{
         setMailVerified(false);
+        localStorage.removeItem('verifyMail');
         localStorage.removeItem('token');
         setToken(null);
     }

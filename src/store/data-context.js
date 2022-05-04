@@ -4,7 +4,7 @@ export const dataContext = React.createContext({
     image:'',
     expenses:[],
     dataHandler:(displayName, imgUrl)=>{},
-    expensesHandler:(expenses)=>{}
+    expensesHandler:(amount, description, category)=>{}
 });
 
 const DataProvider =(props)=>{

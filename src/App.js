@@ -36,7 +36,7 @@ function App() {
         </Route>
       )}
       {authCtx.isLogIn && authCtx.isEmailVerified && (
-        <Route path="/">
+        <Route path="/welcome">
           <WelcomePage />
         </Route>
       )}

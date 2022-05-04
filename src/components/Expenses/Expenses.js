@@ -1,24 +1,43 @@
-import { useRef, Fragment, useContext, useState } from "react";
-import { dataContext } from "../../store/data-context";
+import { useRef, Fragment, useState} from "react";
+//import { dataContext } from "../../store/data-context";
 import ExpensesItem from "./ExpensesItem";
 
+
 const Expenses = () => {
-  const [isInput, setIsInput] = useState(false);
-  const dataCtx = useContext(dataContext);
+
+
   const amountRef = useRef();
   const descriptionRef = useRef();
   const categoryRef = useRef();
+  const [data1, setData1] = useState();
   const submitHandler = (event) => {
     event.preventDefault();
     const enteredAmount = amountRef.current.value;
     const enteredDescription = descriptionRef.current.value;
     const enteredCategory = categoryRef.current.value;
-    
-    
-    dataCtx.expensesHandler(enteredAmount, enteredDescription, enteredCategory);
-    console.log(dataCtx.expenses);
-    setIsInput(prev=>!prev);
-    
+    fetch('https://expense-tracker-d574a-default-rtdb.firebaseio.com/expenses.json',{
+      method:'POST',
+      'Content-Type':'application/json',
+      body:JSON.stringify({
+        amount:enteredAmount,
+        description:enteredDescription,
+        category:enteredCategory
+      })
+    }).then((res)=>{
+      if(res.ok){
+        return res.json();
+      }else{
+        return res.json().then((data)=>{
+          let errorMessage = 'Adding failed';
+          if(data && data.error && data.error.message){
+            errorMessage = data.error.message;
+          }
+          throw new Error(errorMessage);
+        })
+      }
+    }).then((data)=>{
+        setData1({amount:enteredAmount, description:enteredDescription, category:enteredCategory});
+    }).catch(err => alert(err))
   };
   return (
     <Fragment>
@@ -53,7 +72,13 @@ const Expenses = () => {
         <br />
         <button>Add</button>
       </form>
-    {isInput && <ExpensesItem amount={amountRef.current.value} description = {descriptionRef} category={categoryRef} /> }
+    {<ExpensesItem/> }
+    {data1 &&
+        <li >
+          Amount : {data1.amount} Description: {data1.description} Category:{" "}
+          {data1.category}
+        </li>
+      }
     
     </Fragment>
   );
