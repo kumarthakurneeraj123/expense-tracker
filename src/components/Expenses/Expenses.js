@@ -1,23 +1,63 @@
-import { useRef, Fragment, useState} from "react";
-//import { dataContext } from "../../store/data-context";
+import { useRef, Fragment, useState, useContext } from "react";
+import { dataContext } from "../../store/data-context";
 import ExpensesItem from "./ExpensesItem";
 
-
 const Expenses = () => {
-
-
+  const dataCtx = useContext(dataContext);
   const amountRef = useRef();
   const descriptionRef = useRef();
   const categoryRef = useRef();
-  const [data1, setData1] = useState();
+ // const [data1, setData1] = useState();
+  const [inEdit, setInEdit] = useState(false);
   const submitHandler = (event) => {
     event.preventDefault();
     const enteredAmount = amountRef.current.value;
     const enteredDescription = descriptionRef.current.value;
     const enteredCategory = categoryRef.current.value;
-    fetch('https://expense-tracker-d574a-default-rtdb.firebaseio.com/expenses.json',{
-      method:'POST',
-      'Content-Type':'application/json',
+    fetch(
+      "https://expense-tracker-d574a-default-rtdb.firebaseio.com/expenses.json",
+      {
+        method: "POST",
+        "Content-Type": "application/json",
+        body: JSON.stringify({
+          amount: enteredAmount,
+          description: enteredDescription,
+          category: enteredCategory,
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            let errorMessage = "Adding failed";
+            if (data && data.error && data.error.message) {
+              errorMessage = data.error.message;
+            }
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        
+        window.location.reload();
+      })
+      .catch((err) => alert(err));
+  };
+  
+  
+
+  const editHandler = (event)=>{
+    event.preventDefault();
+    const enteredAmount = amountRef.current.value;
+    const enteredDescription = descriptionRef.current.value;
+    const enteredCategory = categoryRef.current.value;
+    fetch(`https://expense-tracker-d574a-default-rtdb.firebaseio.com/expenses/${dataCtx.id}.json`,{
+      method:'PUT',
+      headers:{
+        'Content-Type':'application/json'
+      },
       body:JSON.stringify({
         amount:enteredAmount,
         description:enteredDescription,
@@ -25,10 +65,11 @@ const Expenses = () => {
       })
     }).then((res)=>{
       if(res.ok){
+       
         return res.json();
       }else{
         return res.json().then((data)=>{
-          let errorMessage = 'Adding failed';
+          let errorMessage = 'Failed to edit! try again';
           if(data && data.error && data.error.message){
             errorMessage = data.error.message;
           }
@@ -36,12 +77,15 @@ const Expenses = () => {
         })
       }
     }).then((data)=>{
-        setData1({amount:enteredAmount, description:enteredDescription, category:enteredCategory});
-    }).catch(err => alert(err))
-  };
+      alert('Updated Succesfully!');
+      setInEdit(false);
+      window.location.reload(true);
+    }).catch(err => alert(err));
+  }
+
   return (
     <Fragment>
-      <form onSubmit={submitHandler}>
+      <form >
         <h1>Expense Detail</h1>
         <label>Amount Spent </label>
         <br />
@@ -70,16 +114,10 @@ const Expenses = () => {
         </select>
         <br />
         <br />
-        <button>Add</button>
+        { inEdit ? <button  onClick={editHandler}>Update</button >:<button onClick={submitHandler}>Add</button>}
       </form>
-    {<ExpensesItem/> }
-    {data1 &&
-        <li >
-          Amount : {data1.amount} Description: {data1.description} Category:{" "}
-          {data1.category}
-        </li>
-      }
-    
+      {<ExpensesItem isEdit={setInEdit} ref1={amountRef} ref2={descriptionRef} ref3={categoryRef} />}
+      
     </Fragment>
   );
 };

@@ -18,13 +18,13 @@ import ForgotPasswordVerify from "./components/ForgotPassword/ForgotPasswordVeri
 function App() {
   const authCtx = useContext(authContext);
   return (
-    <div>
+    <div style={{backgroundColor:'pink'}}>
       <div className="app">
         <Switch>
           {!authCtx.isSignUp && !authCtx.isLogIn && <SignUpPage />}
 
           {authCtx.isSignUp && !authCtx.isLogIn && (
-            <Route path="/login" exact>
+            <Route path="/*" exact>
               <LoginPage />
             </Route>
           )}

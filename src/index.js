@@ -10,7 +10,7 @@ import DataProvider from './store/data-context';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <AuthContextProvider>
-    <DataProvider>
+<DataProvider>
 <BrowserRouter>
     <App />
 </BrowserRouter>
